@@ -8,7 +8,9 @@
 	</head>
 	<body>
 		<textarea id="script" cols="40" rows="18"></textarea><br />
-		<button onclick="Pancake.run(document.getElementById('script').value)">Run</button><br />
+		<button onclick="Pancake.run(document.getElementById('script').value.split('\n').join(' '))">
+			Run</button
+		><br />
 		<textarea readonly id="out" cols="40" rows="18"></textarea>
 	</body>
 </html>

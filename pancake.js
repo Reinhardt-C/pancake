@@ -10,7 +10,7 @@ class Pancake {
 				currentPosition++;
 				continue;
 			}
-			if (/\s/.test(char) && buffer.length > 0 && currentType !== "STRING") {
+			if (/[\s\n\r]/.test(char) && buffer.length > 0 && currentType !== "STRING") {
 				tokens.push(new Token(currentType, buffer));
 				currentType = null;
 				buffer = "";
