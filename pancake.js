@@ -53,13 +53,15 @@ class Pancake {
 		let permtokens = [...tokens];
 		let stacks = {};
 		let orders = {};
-		let condition;
+		let condition, notcondition;
 		let pancake;
 		while (tokens.length > 0) {
 			let token = tokens.shift();
 			if (token.type !== "KEYWORD") continue;
 			if (condition !== undefined && pancake !== condition) continue;
 			condition = undefined;
+			if (notcondition !== undefined && pancake == notcondition) continue;
+			notcondition = undefined;
 			switch (token.value) {
 				case "plate":
 					stacks[tokens.shift().value] = [];
@@ -91,7 +93,12 @@ class Pancake {
 					tokens = permtokens.slice(orders[tokens.shift().value]);
 					break;
 				case "require":
-					condition = tokens.shift().raw;
+					let t = tokens.shift();
+					condition = t.raw || stacks[t.value][stacks[t.value].length - 1];
+					break;
+				case "requirenot":
+					let s = tokens.shift();
+					notcondition = s.raw || stacks[s.value][stacks[s.value].length - 1];
 					break;
 			}
 		}
