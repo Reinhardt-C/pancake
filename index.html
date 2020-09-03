@@ -6,5 +6,9 @@
 
 		<script src="pancake.js"></script>
 	</head>
-	<body></body>
+	<body>
+		<textarea id="script" cols="40" rows="18"></textarea><br />
+		<button onclick="Pancake.run(document.getElementById('script').value)">Run</button><br />
+		<textarea readonly id="out" cols="40" rows="18"></textarea>
+	</body>
 </html>

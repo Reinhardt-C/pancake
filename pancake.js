@@ -58,10 +58,8 @@ class Pancake {
 		while (tokens.length > 0) {
 			let token = tokens.shift();
 			if (token.type !== "KEYWORD") continue;
-			if (condition !== undefined && pancake !== condition) {
-				condition = undefined;
-				continue;
-			}
+			if (condition !== undefined && pancake !== condition) continue;
+			condition = undefined;
 			switch (token.value) {
 				case "plate":
 					stacks[tokens.shift().value] = [];
@@ -70,7 +68,8 @@ class Pancake {
 					pancake = tokens.shift().raw;
 					break;
 				case "flip":
-					console.log(pancake);
+					// console.log(pancake);
+					document.getElementById("out").value += pancake;
 					break;
 				case "push":
 					stacks[tokens.shift().value].push(pancake);
@@ -115,7 +114,3 @@ class Token {
 		return "";
 	}
 }
-
-fetch("example.pancake")
-	.then(r => r.text())
-	.then(Pancake.run);
