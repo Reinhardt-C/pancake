@@ -98,6 +98,7 @@ class Pancake {
 	}
 
 	static run(str) {
+		document.getElementById("out").value = "";
 		Pancake.parse(Pancake.lex(str));
 	}
 }
