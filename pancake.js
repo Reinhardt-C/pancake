@@ -58,9 +58,15 @@ class Pancake {
 		while (tokens.length > 0) {
 			let token = tokens.shift();
 			if (token.type !== "KEYWORD") continue;
-			if (condition !== undefined && pancake !== condition) continue;
+			if (condition !== undefined && pancake !== condition) {
+				condition = undefined;
+				continue;
+			}
 			condition = undefined;
-			if (notcondition !== undefined && pancake == notcondition) continue;
+			if (notcondition !== undefined && pancake == notcondition) {
+				notcondition = undefined;
+				continue;
+			}
 			notcondition = undefined;
 			switch (token.value) {
 				case "plate":
@@ -87,10 +93,13 @@ class Pancake {
 					pancake--;
 					break;
 				case "neworder":
-					orders[tokens.shift().value] = permtokens.length - tokens.length;
+					console.log(permtokens.slice(permtokens.length - tokens.length + 1));
+					orders[tokens.shift().value] = permtokens.length - tokens.length + 1;
 					break;
 				case "order":
-					tokens = permtokens.slice(orders[tokens.shift().value]);
+					let v = orders[tokens.shift().value];
+					// console.log(v);
+					tokens = permtokens.slice(v);
 					break;
 				case "require":
 					let t = tokens.shift();
@@ -99,6 +108,7 @@ class Pancake {
 				case "requirenot":
 					let s = tokens.shift();
 					notcondition = s.raw || stacks[s.value][stacks[s.value].length - 1];
+					// console.log(s);
 					break;
 			}
 		}
