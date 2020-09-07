@@ -1,5 +1,6 @@
 class Pancake {
 	static lex(str) {
+		str = str.replace("\n", " ");
 		let currentPosition = 0;
 		let buffer = "";
 		let currentType = null;
@@ -53,21 +54,22 @@ class Pancake {
 		let permtokens = [...tokens];
 		let stacks = {};
 		let orders = {};
-		let condition, notcondition;
+		let condition = null,
+			notcondition = null;
 		let pancake;
 		while (tokens.length > 0) {
 			let token = tokens.shift();
 			if (token.type !== "KEYWORD") continue;
-			if (condition !== undefined && pancake !== condition) {
-				condition = undefined;
+			if (condition !== null && pancake !== condition) {
+				condition = null;
 				continue;
 			}
-			condition = undefined;
-			if (notcondition !== undefined && pancake == notcondition) {
-				notcondition = undefined;
+			condition = null;
+			if (notcondition !== null && pancake == notcondition) {
+				notcondition = null;
 				continue;
 			}
-			notcondition = undefined;
+			notcondition = null;
 			switch (token.value) {
 				case "plate":
 					stacks[tokens.shift().value] = [];
@@ -76,7 +78,6 @@ class Pancake {
 					pancake = tokens.shift().raw;
 					break;
 				case "flip":
-					// console.log(pancake);
 					document.getElementById("out").value += pancake;
 					break;
 				case "push":
@@ -84,7 +85,9 @@ class Pancake {
 					pancake = undefined;
 					break;
 				case "pop":
-					pancake = stacks[tokens.shift().value].pop();
+					let p = tokens.shift().value;
+					console.log(stacks.left, stacks.right);
+					pancake = stacks[p].pop();
 					break;
 				case "butter":
 					pancake++;
@@ -93,13 +96,11 @@ class Pancake {
 					pancake--;
 					break;
 				case "neworder":
-					console.log(permtokens.slice(permtokens.length - tokens.length + 1));
 					orders[tokens.shift().value] = permtokens.length - tokens.length + 1;
 					break;
 				case "order":
-					let v = orders[tokens.shift().value];
-					// console.log(v);
-					tokens = permtokens.slice(v);
+					let v = tokens.shift().value;
+					tokens = permtokens.slice(orders[v]);
 					break;
 				case "require":
 					let t = tokens.shift();
@@ -108,7 +109,6 @@ class Pancake {
 				case "requirenot":
 					let s = tokens.shift();
 					notcondition = s.raw || stacks[s.value][stacks[s.value].length - 1];
-					// console.log(s);
 					break;
 			}
 		}

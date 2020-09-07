@@ -5,8 +5,6 @@ const rl = readline.createInterface({
 	output: process.stdout,
 });
 
-// runFile("./fibonacci.pancake");
-
 init();
 
 function init() {
@@ -15,6 +13,10 @@ function init() {
 		switch (instruct[0]) {
 			case "pancake":
 				runFile(instruct.slice(1).join(" "));
+				break;
+			case "help":
+				console.log("pancake [path] - run the pancake file at path");
+				init();
 				break;
 			default:
 				console.log("Unknown command " + instruct[0]);
@@ -89,21 +91,22 @@ class Pancake {
 		let permtokens = [...tokens];
 		let stacks = {};
 		let orders = {};
-		let condition, notcondition;
+		let condition = null,
+			notcondition = null;
 		let pancake;
 		while (tokens.length > 0) {
 			let token = tokens.shift();
 			if (token.type !== "KEYWORD") continue;
-			if (condition !== undefined && pancake !== condition) {
-				condition = undefined;
+			if (condition !== null && pancake !== condition) {
+				condition = null;
 				continue;
 			}
-			condition = undefined;
-			if (notcondition !== undefined && pancake == notcondition) {
-				notcondition = undefined;
+			condition = null;
+			if (notcondition !== null && pancake == notcondition) {
+				notcondition = null;
 				continue;
 			}
-			notcondition = undefined;
+			notcondition = null;
 			switch (token.value) {
 				case "plate":
 					stacks[tokens.shift().value] = [];

@@ -1,4 +1,3 @@
-const fs = require("fs");
 const readline = require("readline");
 const rl = readline.createInterface({
 	input: process.stdin,
@@ -7,8 +6,8 @@ const rl = readline.createInterface({
 
 let g = {
 	stacks: [],
-	condition: undefined,
-	notcondition: undefined,
+	condition: null,
+	notcondition: null,
 	pancake: undefined,
 };
 
@@ -17,13 +16,6 @@ init();
 function init() {
 	rl.question("> ", function (input) {
 		Pancake.run(input);
-	});
-}
-
-function runFile(path) {
-	fs.readFile(path, "utf8", function (err, script) {
-		if (err) throw err;
-		Pancake.run(script);
 	});
 }
 
@@ -90,16 +82,16 @@ class Pancake {
 		while (tokens.length > 0) {
 			let token = tokens.shift();
 			if (token.type !== "KEYWORD") continue;
-			if (condition !== undefined && pancake !== condition) {
-				condition = undefined;
+			if (condition !== null && pancake !== condition) {
+				condition = null;
 				continue;
 			}
-			condition = undefined;
-			if (notcondition !== undefined && pancake == notcondition) {
-				notcondition = undefined;
+			condition = null;
+			if (notcondition !== null && pancake == notcondition) {
+				notcondition = null;
 				continue;
 			}
-			notcondition = undefined;
+			notcondition = null;
 			switch (token.value) {
 				case "plate":
 					stacks[tokens.shift().value] = [];
