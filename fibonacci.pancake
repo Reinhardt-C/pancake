@@ -1,0 +1,42 @@
+plate prev plate curr plate temp plate added plate n
+
+bake 1 
+flip 
+push prev 
+bake 1 
+flip 
+push curr 
+
+bake 0
+neworder next
+    push n
+
+    bake 0
+    neworder add
+        push added
+
+        pop prev
+        butter
+        push prev
+
+        pop added
+        butter
+
+    requirenot curr
+    order add
+
+    push added
+
+    pop prev
+    push temp
+    pop curr
+    push prev
+    pop temp
+    flip
+    push curr
+
+    pop n
+    butter
+
+requirenot 100
+order next
